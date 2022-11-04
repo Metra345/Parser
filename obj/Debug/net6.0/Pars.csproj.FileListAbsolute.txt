@@ -1,0 +1,15 @@
+C:\Users\Zeltix\source\repos\Pars\bin\Debug\net6.0\Pars.exe
+C:\Users\Zeltix\source\repos\Pars\bin\Debug\net6.0\Pars.deps.json
+C:\Users\Zeltix\source\repos\Pars\bin\Debug\net6.0\Pars.runtimeconfig.json
+C:\Users\Zeltix\source\repos\Pars\bin\Debug\net6.0\Pars.dll
+C:\Users\Zeltix\source\repos\Pars\bin\Debug\net6.0\Pars.pdb
+C:\Users\Zeltix\source\repos\Pars\obj\Debug\net6.0\Pars.csproj.AssemblyReference.cache
+C:\Users\Zeltix\source\repos\Pars\obj\Debug\net6.0\Pars.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Zeltix\source\repos\Pars\obj\Debug\net6.0\Pars.AssemblyInfoInputs.cache
+C:\Users\Zeltix\source\repos\Pars\obj\Debug\net6.0\Pars.AssemblyInfo.cs
+C:\Users\Zeltix\source\repos\Pars\obj\Debug\net6.0\Pars.csproj.CoreCompileInputs.cache
+C:\Users\Zeltix\source\repos\Pars\obj\Debug\net6.0\Pars.dll
+C:\Users\Zeltix\source\repos\Pars\obj\Debug\net6.0\refint\Pars.dll
+C:\Users\Zeltix\source\repos\Pars\obj\Debug\net6.0\Pars.pdb
+C:\Users\Zeltix\source\repos\Pars\obj\Debug\net6.0\Pars.genruntimeconfig.cache
+C:\Users\Zeltix\source\repos\Pars\obj\Debug\net6.0\ref\Pars.dll
