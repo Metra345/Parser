@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Pars
 {
@@ -9,10 +10,13 @@ namespace Pars
         const string fileRegex = @".*\.log";
         static void Main(string[] args)
         {
-
             if (args.Length == 0) return;
 
+            if (!File.Exists(resultFile)) File.Create(resultFile);
+            File.WriteAllText(resultFile, "");
+
             List<string> files = new List<string>();
+
             if (File.Exists(args[0]))
             {
                 files.Add(args[0]);
@@ -21,42 +25,37 @@ namespace Pars
             {
                 files.AddRange(FileNamesFromDirectory(args[0]));
             }
-            from file in Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.log", SearchOption.AllDirectories)
-            from line in File.ReadLines(file)
-            where new Regex(@"threw an exception during launch").IsMatch(line)
-            //foreach (string line in File
-            //    .ReadAllLines("log.log")
-            //    .Select((x, i) => (String
-            //    .Format("[Строка {0}] {1}", i, x)))
-            //    .Where(x => new Regex(@"threw an exception during launch")
-            //    .IsMatch(x))
-            //    .ToArray())
-            //    Console.WriteLine(line);
-            //foreach (
-            //    var match in from file in Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.log", SearchOption.AllDirectories)
-            //                 from line in File.ReadLines(file)
-            //                 select (x, i)
-            //                where new Regex(@"threw an exception during launch").IsMatch(line)
-            //    select new
-            //    {
-            //        File = file,
-            //        Line = line,
-            //        index = index
-            //    }) Console.WriteLine(String.Format("[file]", match.File, match.Line));
-
+            foreach (string file in files)
+            {
+                ProcessSingleFile(file);
+            }
         }
         public static List<string> FileNamesFromDirectory(string dir)
         {
             return Directory
                         .EnumerateFiles(dir)
-                        .Where(x => new Regex(fileRegex)
+                        .Where(x => new Regex(fileRegex)//коряво(лишний энтер) но красиво
                         .IsMatch(x))
                         .ToList();
         }
 
-        public void ProcessSingleFile()
+        public static void ProcessSingleFile(string fileName)
         {
-
+            using (StreamWriter sw = File.CreateText(resultFile))
+            {
+                foreach (string processedLine in File
+                .ReadAllLines(fileName)
+                .Select((line, i) => (String//коряво(лишний энтер) но красиво
+                .Format("[Файл {0}][Строка {1}] ", fileName, i), line))
+                .Where(prefixAndLine => new Regex(regexMask)//коряво(лишний энтер) но красиво
+                .IsMatch(prefixAndLine.line))
+                .Select(prefixAndLine => prefixAndLine.Item1 + prefixAndLine.line)
+                .ToArray())
+                {
+                    Console.WriteLine(processedLine);
+                    sw.WriteLine(processedLine);
+                }
+            }
         }
     }
 }
