@@ -10,18 +10,10 @@ namespace Pars
         static string fileRegex = ".*\\.log";
         static void Main(string[] args)
         {
-            if (args.Length == 0) return;
-
-
+            if (args.Length == 0) return;//без аргументов выходим из программы
             if (args.Length > 1) regexMask = args[1];//первое, что перезаписываем - фильтр строк, ключевая переменная в программе
             if (args.Length > 2) resultFile = args[2];//второе, что перезаписываем - при необходимости использовать другой выходной файл
             if (args.Length > 3) fileRegex = args[3];//последнее, что перезаписываем - если вдруг хотим работать не с .log файлами
-
-
-
-
-
-
 
             if (!File.Exists(resultFile)) File.Create(resultFile);
 
@@ -35,7 +27,7 @@ namespace Pars
 
             //if (files.Count == 0) return;
 
-            foreach (string file in files) ProcessSingleFile(file, new Regex(regexMask));
+            foreach (string file in files) Process2_0(file, new Regex(regexMask));
         }
         public static List<string> FileNamesFromDirectory(string dir)
         {
@@ -44,16 +36,20 @@ namespace Pars
                         .Where(x => new Regex(fileRegex).IsMatch(x))
                         .ToList();
         }
-
-        public static void ProcessSingleFile(string fileName, Regex regex)
+        public static void Process2_0(string fileName, Regex regex)
         {
-            var result = File
-                .ReadAllLines(fileName)
-                .Select((line, i) => (String.Format("[Файл {0}][Строка {1}] ", fileName, i), line))
-                .Where(prefixAndLine => regex.IsMatch(prefixAndLine.line))
-                .Select(prefixAndLine => prefixAndLine.Item1 + prefixAndLine.line)
-                .ToArray();
-            foreach (string processedLine in result) Console.WriteLine(processedLine);
+            string[] lines = File.ReadAllLines(fileName);
+            List<string> result = new List<string>();
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (regex.IsMatch(lines[i]))
+                {
+                    result.Add(String.Format("[Файл {0}][Строка {1}] ", fileName, i) + lines[i]);
+                }
+                Console.Write("\rФайл {0}, прогресс: {1}%", fileName, Math.Floor((i+1) * 100.0 / lines.Length));
+                if (i % 10 == 0)Thread.Sleep(1);//без задержки незаметно
+            }
+            Console.WriteLine();
             File.AppendAllLines(resultFile, result);
         }
     }
